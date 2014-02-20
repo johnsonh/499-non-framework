@@ -25,7 +25,9 @@ $pass = $session->get('password');
 //already in a session
 if (ITP\Auth::attempt($user, $pass))
 {
-    //redirect to dashboard
+    //redirect to dashboard.php
+    $response = new RedirectResponse('dashboard.php');
+    return $response->send();
 }
 else
 {
@@ -41,6 +43,13 @@ else
         $session->set('password', $pass);
         $session->set('timestamp', new DateTime());
 
+        $session->getFlashBag()->set('statusMessage', 'You have successfully logged in!');
+    }
+    else
+    {
+        //redirect to login.php
+        $response = new RedirectResponse('login.php');
+        return $response->send();
     }
 }
 
