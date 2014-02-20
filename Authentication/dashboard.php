@@ -33,7 +33,7 @@ echo '
 </tr>
 <?php foreach ($songs as song) : ?>
 <tr>
-  <td>Jill</td>
+  <td><?php echo $song->title ?></td>
   <td>Smith</td>
   <td>50</td>
   <td>ddf</td>
