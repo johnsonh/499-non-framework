@@ -6,3 +6,7 @@
  * Time: 5:19 PM
  */
 
+$session->clear(); // session_destroy()
+
+$response = new RedirectResponse('login.php');
+return $response->send();

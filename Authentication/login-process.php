@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 echo 'dog';
 
-$date = time(); //new DateTime(DateTimeZone::Pac);
 $user = $session->get('username');
 $pass = $session->get('password');
 
@@ -44,7 +43,7 @@ else
 
         $session->set('username', $user);
         $session->set('password', $pass);
-        $session->set('timestamp', new DateTime());
+        $session->set('timestamp', time());
 
         $session->getFlashBag()->set('statusMessage', 'You have successfully logged in!');
     }

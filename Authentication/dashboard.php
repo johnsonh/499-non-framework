@@ -10,11 +10,18 @@ require_once 'db.php';
 require_once 'Auth.php';
 
 //info of user
+$user = $session->get('username');
+echo 'Welcome, $user \n';
 
 //last login
+echo 'Last Login: ';
+echo '';
+echo 'ago. ';
 
 //logout link
-
+echo '
+<a href="logout.php">Logout</a>
+';
 
 $songQuery = new ITP\Songs\SongQuery($pdo);
 $songs = $songQuery
@@ -34,9 +41,9 @@ echo '
 <?php foreach ($songs as song) : ?>
 <tr>
   <td><?php echo $song->title ?></td>
-  <td>Smith</td>
-  <td>50</td>
-  <td>ddf</td>
+  <td><?php echo $song->artist_name ?></td>
+  <td><?php echo $song->genre ?></td>
+  <td><?php echo $song->price ?></td>
 </tr>
 <?php endforeach; ?>
 ';
