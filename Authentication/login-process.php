@@ -9,9 +9,18 @@
 require_once 'login.php';
 require_once 'Auth.php';
 
+/*
+use \Symfony\Component\HttpFoundation\Request;
+use \Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+*/
+
 echo 'dog';
 
-if (ITP\Auth::attempt("sd", "D"))
+$user = "";
+$pass = "";
+
+if (ITP\Auth::attempt($user, $pass))
 {
     //redirect to dashboard
 }
