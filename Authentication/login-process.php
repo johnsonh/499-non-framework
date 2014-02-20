@@ -22,7 +22,7 @@ $date = new DateTime();
 $user = $session->get('username');
 $pass = $session->get('password');
 
-//already in a session
+//check if already in a session
 if (ITP\Auth::attempt($user, $pass))
 {
     //redirect to dashboard.php
@@ -31,6 +31,7 @@ if (ITP\Auth::attempt($user, $pass))
 }
 else
 {
+    //not in session, check the user's input
     $user = $request->query->get('username');
     $pass = $request->query->get('password');
 
@@ -47,7 +48,7 @@ else
     }
     else
     {
-        //redirect to login.php
+        //bad login, redirect to login.php
         $response = new RedirectResponse('login.php');
         return $response->send();
     }
