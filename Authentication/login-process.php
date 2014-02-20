@@ -11,14 +11,16 @@ require __DIR__ . '/../vendor/autoload.php';
 require_once 'login.php';
 require_once 'Auth.php';
 
+
 use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use DateTime;
 
+
 echo 'dog';
 
-$date = new DateTime();
+$date = new DateTime(DateTimeZone::Pac);
 $user = $session->get('username');
 $pass = $session->get('password');
 
