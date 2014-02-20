@@ -10,21 +10,41 @@ namespace ITP;
 
 class Auth
 {
-    protected static $accounts = array (
-        "student" => "ttrojan"
-    );
+//    protected static $accounts = array (
+//        "student" => "ttrojan"
+//    );
 
+    protected $pdo;
+    protected $sql;
 
-    public static function attempt($username, $password)
+    public function __construct($pdo)
     {
-        if (Auth::$accounts[$username] == $password)
+        $this->pdo = $pdo;
+    }
+
+    protected function getUsers()
+    {
+        $this->sql = "SELECT * FROM users";
+        $statement = $this->pdo->prepare($this->sql);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function attempt($username, $password)
+    {
+        $accounts = $this->getUsers();
+        foreach ($accounts as $account)
         {
-            return true;
+            if ($account->username == $username)
+            {
+                $sha = sha1($password);
+                if ($account->password == $sha)
+                {
+                    return $account;
+                }
+            }
         }
-        else
-        {
-            return false;
-        }
+        return null;
     }
 
 

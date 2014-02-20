@@ -8,6 +8,8 @@
 
 require_once 'db.php';
 require_once 'Auth.php';
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 //info of user
 $user = $session->get('username');

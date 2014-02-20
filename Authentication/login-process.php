@@ -23,7 +23,8 @@ $user = $session->get('username');
 $pass = $session->get('password');
 
 //check if already in a session
-if (ITP\Auth::attempt($user, $pass))
+$auth = new ITP\Auth($pdo);
+if ($auth->attempt($user, $pass))
 {
     //redirect to dashboard.php
     $response = new RedirectResponse('dashboard.php');
@@ -36,13 +37,14 @@ else
     $user = $request->query->get('username');
     $pass = $request->query->get('password');
 
-    if (ITP\Auth::attempt($user, $pass))
+    $account = $auth->attempt($user, $pass);
+    if ($account)
     {
         //legit user/pass, start new session
         $session = new Session();
 
-        $session->set('username', $user);
-        $session->set('password', $pass);
+        $session->set('username', $account->username);
+        $session->set('email', $account->email);
         $session->set('timestamp', time());
 
         $session->getFlashBag()->set('statusMessage', 'You have successfully logged in!');
