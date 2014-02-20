@@ -8,7 +8,6 @@
 
 namespace ITP;
 
-
 class Auth
 {
     protected static $accounts = array (

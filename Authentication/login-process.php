@@ -8,19 +8,18 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-require_once 'login.php';
 require_once 'Auth.php';
 
 
 use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
-use DateTime;
+//use DateTime;
 
 
 echo 'dog';
 
-$date = new DateTime(DateTimeZone::Pac);
+$date = time(); //new DateTime(DateTimeZone::Pac);
 $user = $session->get('username');
 $pass = $session->get('password');
 
@@ -34,6 +33,7 @@ if (ITP\Auth::attempt($user, $pass))
 else
 {
     //not in session, check the user's input
+    $request = Request::createFromGlobals();
     $user = $request->query->get('username');
     $pass = $request->query->get('password');
 
