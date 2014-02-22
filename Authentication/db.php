@@ -11,4 +11,11 @@ $dbname = 'music';
 $user = 'student';
 $pass = 'ttrojan';
 
-$pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+try
+{
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+}
+catch (PDOException $e)
+{
+    echo 'failed, ' . $e->getMessage() . $e->getTraceAsString();
+}

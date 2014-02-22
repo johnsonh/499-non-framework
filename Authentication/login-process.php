@@ -19,8 +19,14 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 echo 'dog';
 
+$session = new Session();
+$session->start(); // session_start()
+
 $user = $session->get('username');
 $pass = $session->get('password');
+
+echo $user;
+echo $pass;
 
 //check if already in a session
 $auth = new ITP\Auth($pdo);
@@ -34,25 +40,34 @@ else
 {
     //not in session, check the user's input
     $request = Request::createFromGlobals();
-    $user = $request->query->get('username');
-    $pass = $request->query->get('password');
+    $user = $request->request->get('username');
+    $pass = $request->request->get('password');
+    echo $user;
+    echo $pass;
 
     $account = $auth->attempt($user, $pass);
     if ($account)
     {
         //legit user/pass, start new session
-        $session = new Session();
+        //$session = new Session();
+        echo 'Good login!';
 
         $session->set('username', $account->username);
         $session->set('email', $account->email);
         $session->set('timestamp', time());
 
         $session->getFlashBag()->set('statusMessage', 'You have successfully logged in!');
+
+        //redirect to dashboard.php
+        $response = new RedirectResponse('dashboard.php');
+        return $response->send();
     }
     else
     {
         //bad login, redirect to login.php
+        echo 'bad login, redirecting';
         $response = new RedirectResponse('login.php');
+        //$session->getFlashBag()->set('statusMessage', 'Incorrect Login');
         return $response->send();
     }
 }

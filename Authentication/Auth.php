@@ -8,6 +8,10 @@
 
 namespace ITP;
 
+require_once 'db.php';
+
+use PDO;
+
 class Auth
 {
 //    protected static $accounts = array (
@@ -24,10 +28,17 @@ class Auth
 
     protected function getUsers()
     {
-        $this->sql = "SELECT * FROM users";
-        $statement = $this->pdo->prepare($this->sql);
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_OBJ);
+        try
+        {
+            $this->sql = "SELECT * FROM users";
+            $statement = $this->pdo->prepare($this->sql);
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_OBJ);
+        }
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
     }
 
     public function attempt($username, $password)
@@ -35,6 +46,8 @@ class Auth
         $accounts = $this->getUsers();
         foreach ($accounts as $account)
         {
+            //echo $account->username;
+
             if ($account->username == $username)
             {
                 $sha = sha1($password);
@@ -44,6 +57,7 @@ class Auth
                 }
             }
         }
+
         return null;
     }
 

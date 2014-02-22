@@ -6,23 +6,41 @@
  * Time: 5:19 PM
  */
 
+require __DIR__ . '/../vendor/autoload.php';
+
 require_once 'db.php';
 require_once 'Auth.php';
+require_once 'SongQuery.php';
+
 use Symfony\Component\HttpFoundation\Session\Session;
 
+$session = new Session();
+
+$user = $session->get('username');
+$pass = $session->get('password');
+
+echo $user;
+echo $pass;
+
+$auth = new ITP\Auth($pdo);
+if (!$auth->attempt($user, $pass))
+{
+    $response = new RedirectResponse('login.php');
+    return $response->send();
+}
 
 //info of user
 $user = $session->get('username');
-echo 'Welcome, $user \n';
+echo '<h3> Welcome, ' . $user . '</h3>';
 
 //last login
-echo 'Last Login: ';
+echo '<p> Last Login: ';
 echo '';
-echo 'ago. ';
+echo 'ago. </p>';
 
 //logout link
-echo '
-<a href="logout.php">Logout</a>
+echo '<p>
+<a href="logout.php">Logout</a></p>
 ';
 
 $songQuery = new ITP\Songs\SongQuery($pdo);
@@ -39,16 +57,16 @@ echo '
   <th>Artist</th>
   <th>Genre</th>
   <th>Price</th>
-</tr>
-<?php foreach ($songs as song) : ?>
-<tr>
-  <td><?php echo $song->title ?></td>
-  <td><?php echo $song->artist_name ?></td>
-  <td><?php echo $song->genre ?></td>
-  <td><?php echo $song->price ?></td>
-</tr>
-<?php endforeach; ?>
-';
+</tr>';
+foreach ($songs as $song)
+{
+    echo '<tr>';
+    echo '<td>' . $song->title . '</td>';
+    echo '<td>' . $song->artist_name . '</td>';
+    echo '<td>' . $song->genre . '</td>';
+    echo '<td>' . $song->price . '</td>';
+    echo '</tr>';
+}
 echo '</table>';
 
 

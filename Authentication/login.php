@@ -8,6 +8,9 @@
 
 require_once 'db.php';
 
+require __DIR__ . '/../vendor/autoload.php';
+use Symfony\Component\HttpFoundation\Session\Session;
+
 echo '
 
 <form action="login-process.php" method="post">
@@ -22,3 +25,6 @@ echo '
 </form>
 
 ';
+
+//$session = new Session();
+//var_dump($session->getFlashBag()->get('statusMessage'));
