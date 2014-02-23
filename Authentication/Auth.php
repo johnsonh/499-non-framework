@@ -61,5 +61,24 @@ class Auth
         return null;
     }
 
+    public function authorize($username, $email)
+    {
+        $accounts = $this->getUsers();
+        foreach ($accounts as $account)
+        {
+            //echo $account->username;
+
+            if ($account->username == $username)
+            {
+                if ($account->email == $email)
+                {
+                    return $account;
+                }
+            }
+        }
+
+        return null;
+    }
+
 
 } 

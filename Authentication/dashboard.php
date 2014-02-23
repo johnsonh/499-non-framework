@@ -13,17 +13,20 @@ require_once 'Auth.php';
 require_once 'SongQuery.php';
 
 use Symfony\Component\HttpFoundation\Session\Session;
+use \Symfony\Component\HttpFoundation\RedirectResponse;
+use Carbon\Carbon;
 
 $session = new Session();
 
-$user = $session->get('username');
-$pass = $session->get('password');
+//echo Carbon::now();
 
-echo $user;
-echo $pass;
+$user = $session->get('username');
+$email = $session->get('email');
 
 $auth = new ITP\Auth($pdo);
-if (!$auth->attempt($user, $pass))
+$account = $auth->authorize($user, $email);
+//var_dump($account);
+if (!account)
 {
     $response = new RedirectResponse('login.php');
     return $response->send();
@@ -34,9 +37,11 @@ $user = $session->get('username');
 echo '<h3> Welcome, ' . $user . '</h3>';
 
 //last login
+$timestamp = $session->get('timestamp');
+$now = Carbon::now();
 echo '<p> Last Login: ';
-echo '';
-echo 'ago. </p>';
+echo $now->diffInSeconds($timestamp);
+echo ' seconds ago. </p>';
 
 //logout link
 echo '<p>

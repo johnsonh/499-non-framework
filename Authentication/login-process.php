@@ -10,14 +10,10 @@ require __DIR__ . '/../vendor/autoload.php';
 
 require_once 'Auth.php';
 
-
 use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
-//use DateTime;
-
-
-echo 'dog';
+use Carbon\Carbon;
 
 $session = new Session();
 $session->start(); // session_start()
@@ -54,7 +50,7 @@ else
 
         $session->set('username', $account->username);
         $session->set('email', $account->email);
-        $session->set('timestamp', time());
+        $session->set('timestamp', Carbon::now());
 
         $session->getFlashBag()->set('statusMessage', 'You have successfully logged in!');
 
